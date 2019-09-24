@@ -1,0 +1,5 @@
+.board-square {
+  padding: 20px;
+  border: 2px black;
+  background-color: lightblue;
+}
