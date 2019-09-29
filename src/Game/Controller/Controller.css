@@ -1,0 +1,7 @@
+.invalid-direction {
+  background-color: grey;
+  cursor: default;
+}
+.valid-direction {
+  cursor: pointer;
+}

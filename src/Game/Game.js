@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import { GameBoard } from "./GameBoard/GameBoard";
-import { StartStopButton } from "./StartStopButton/StartStopButton";
+import { Button } from "./Button/Button";
 import { Controller } from "./Controller/Controller";
-
-const findSpirit = (spirit, gameBoard) => {
-  let firstArray = (() => gameBoard.map(arr => arr.indexOf(spirit)))();
-  let x = firstArray.find(x => x > 0);
-  let y = firstArray.indexOf(x);
-
-  return [x, y];
-};
 
 class Game extends Component {
   constructor(props) {
@@ -31,9 +23,17 @@ class Game extends Component {
         ["W", "W", "W", "W", "W", "W", "W"]
       ],
       gameActive: true,
-      minotaurLocation: [2, 1]
+      minotaurLocation: [2, 5]
     });
   }
+
+  findSpirit = (spirit, gameBoard) => {
+    let firstArray = (() => gameBoard.map(arr => arr.indexOf(spirit)))();
+    let x = firstArray.find(x => x > 0);
+    let y = firstArray.indexOf(x);
+
+    return [x, y];
+  };
 
   handleStartStopGameClick = () => {
     this.props.gameBoard
@@ -44,12 +44,27 @@ class Game extends Component {
   };
 
   updateGame = () => {
-    let minotaurLocation = findSpirit("M", this.state.gameBoard);
+    let minotaurLocation = this.findSpirit("M", this.state.gameBoard);
     this.setState(prevState => {
-      return { minotaurLocation: minotaurLocation };
+      let gameBoard = { ...prevState.gameBoard };
+      gameBoard[prevState.minotaurLocation[1]][prevState.minotaurLocation[0]] =
+        "E";
+      gameBoard[this.state.newMinotaurLocation[1]][
+        this.state.newMinotaurLocation[0]
+      ] = "M";
+      return { gameBoard, minotaurLocation: minotaurLocation };
     });
   };
-  handleContollerClick = e => console.log(e);
+
+  handleContollerClick = (e, newPosition) => {
+    console.log(e);
+    this.setState(() => {
+      return {
+        newMinotaurLocation: newPosition
+        // selectedDirection: e.target.id
+      };
+    });
+  };
 
   render() {
     return (
@@ -64,14 +79,13 @@ class Game extends Component {
           />
         )}
 
-        <StartStopButton
+        <Button
           onClick={this.handleStartStopGameClick}
           buttonContents={this.state.gameActive ? "Pause Game" : "Start Game"}
         />
-        <StartStopButton
-          onClick={this.updateGame}
-          buttonContents={"End Turn"}
-        />
+        {this.state.gameBoard && (
+          <Button onClick={this.updateGame} buttonContents={"End Turn"} />
+        )}
       </div>
     );
   }
