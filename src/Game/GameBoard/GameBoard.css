@@ -1,0 +1,6 @@
+.game-board {
+  display: flex;
+  flex-direction: column;
+  border: dashed;
+  width: fit-content;
+}
