@@ -1,19 +1,16 @@
-import React, { Component } from "react";
-import BoardRow from "../GameBoard/BoardRow/BoardRow";
-import BoardSquare from "../GameBoard/BoardSquare/BoardSquare";
+import React from "react";
+import { BoardRow } from "./BoardRow/BoardRow";
+import { BoardSquare } from "./BoardSquare/BoardSquare";
+import "./GameBoard.css";
 
-const GameBoard = () => {
-  return (
-    <div>
-      {this.props.gameBoard.forEach(row => {
-        <BoardRow>
-          {row.array.forEach(cell => {
-            <BoardSquare contents={cell} />;
-          })}
-        </BoardRow>;
-      })}
-    </div>
-  );
+export const GameBoard = ({ gameBoard }) => {
+  let boardRows = gameBoard.map((row, index) => {
+    var yKey = index;
+    let boardSquares = row.map((squareContents, index) => {
+      var xKey = index;
+      return <BoardSquare key={`${xKey}-${yKey}`} contents={squareContents} />;
+    });
+    return <BoardRow key={yKey}>{boardSquares}</BoardRow>;
+  });
+  return <div className="game-board">{boardRows}</div>;
 };
-
-export default GameBoard;

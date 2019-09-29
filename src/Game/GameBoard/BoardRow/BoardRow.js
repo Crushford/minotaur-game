@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
+import "./BoardRow.css";
 
-const BoardRow = () => {
-  return <div className="board-row">{this.props.children}</div>;
+export const BoardRow = ({ children }) => {
+  return <div className="board-row">{children}</div>;
 };
-
-export default BoardRow;
